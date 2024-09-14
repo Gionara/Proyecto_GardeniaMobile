@@ -1,3 +1,99 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+
+
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Gardenia Shop</ion-title>
+      <ion-buttons slot="start">
+        <img src="assets/img/logo/logo_color.png" alt="logo" width="35px" style="padding-right: 4px;">
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <!-- Herramientas -->
+      <ion-item>
+        <ion-icon name="construct-outline" slot="start"></ion-icon>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button [routerLink]="['/herramientas']">
+            <ion-label>Ver Herramientas</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'herramientas', 'Tijeras']">
+            <ion-label>Tijeras</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'herramientas', 'Palas']">
+            <ion-label>Palas</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'herramientas', 'Otras Herramientas']">
+            <ion-label>Otras Herramientas</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-item>
+
+      <!-- Plantas y Semillas -->
+      <ion-item>
+        <ion-icon name="leaf-outline" slot="start"></ion-icon>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button [routerLink]="['/plantas']">
+            <ion-label>Ver Plantas y Semillas</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]=" ['/productos', 'plantas', 'Flores']">
+            <ion-label>Flores</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'plantas', 'Plantas y Arboles']">
+            <ion-label>Plantas y Árboles</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'plantas', 'Huerto']">
+            <ion-label>Huerto</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-item>
+
+      <!-- Insumos -->
+      <ion-item>
+        <ion-icon name="flask-outline" slot="start"></ion-icon>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button [routerLink]="['/insumos']">
+            <ion-label>Ver Insumos</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'Insumos', 'Tierra']">
+            <ion-label>Tierra</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'Insumos', 'Fertilizantes']">
+            <ion-label>Fertilizantes</ion-label>
+          </ion-item>
+          <ion-item button [routerLink]="['/productos', 'Insumos', 'Otros Insumos']">
+            <ion-label>Otros Insumos</ion-label>
+          </ion-item>
+
+        </ion-menu-toggle>
+      </ion-item>
+
+      <!-- All Products -->
+      <ion-item>
+        <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button [routerLink]="['/productos']">
+            <ion-label>Ver todos los productos</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-item>
+      <!-- Carrito de Compras-->
+      <ion-item>
+         <ion-icon name="cart-outline" slot="start"></ion-icon>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button [routerLink]="['/carrito']">
+            <ion-label>Ir al Carrito de Compras</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Main content -->
+<ion-router-outlet id="main-content"></ion-router-outlet>
+
+<!-- Main content -->
+<ion-router-outlet id="main-content"></ion-router-outlet>

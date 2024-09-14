@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar><br>
+    <ion-title>
+      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      Insumos</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button color="light"></ion-menu-button>
+          <ion-back-button color="light"></ion-back-button>
+      </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-icon color="light" name="person-circle-outline" width="50px"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar><br>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <h3 class="text-center ion-justify-content-center">Categorías de Insumos</h3>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      
+        <ion-card [routerLink]="['/productos', 'Insumos', 'Fertilizantes']">
+          <img src="assets/img/categoria/fertilizantes.jpg" />
+          <ion-card-header>
+            <ion-card-title>Tijeras</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card [routerLink]="['/productos', 'Insumos', 'Tierra']">
+          <img src="assets/img/categoria/tierra.jpg" />
+          <ion-card-header>
+            <ion-card-title>Tierra</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card [routerLink]="['/productos', 'Insumos', 'Otros Insumos']">
+          <img src="assets/img/categoria/otros_insumos.jpeg" />
+          <ion-card-header>
+            <ion-card-title>Otros Insumos</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+      </ion-row>
+</ion-content>

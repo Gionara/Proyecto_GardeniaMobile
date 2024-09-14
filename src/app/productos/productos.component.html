@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      {{ categoriaNombre }} - {{ subcategoriaNombre }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="person-circle-outline" color="light" class="ion-icon"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="productos-container">
+    <h3> {{ categoriaNombre }} - {{ subcategoriaNombre }}</h3>
+    <ion-grid>
+      <ion-row class="justify-content-center">
+        <ion-col size="8"  *ngFor="let producto of productos">
+          <ion-card [routerLink]="['/producto-detalle', producto.id]" class="producto-card">
+            <img [src]="producto.img" [alt]="producto.nombre" />
+            <ion-card-header>
+              <ion-card-title>{{ producto.nombre }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <h4>Precio: ${{ producto.precio }}</h4>
+              <p  >Stock: {{ producto.stock }} unidades</p>
+              <p class="descripcion">{{ producto.descripcion }}</p>
+              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" class="añadir-btn">
+                Añadir al Carrito
+              </ion-button>
+              <ion-button *ngIf="producto.stock === 0" expand="full" color="medium" disabled class="agotado-btn">
+                Agotado
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ng-template #noProductos>
+      <p>No hay productos disponibles en esta categoría y subcategoría.</p>
+    </ng-template>
+  </div>
+</ion-content>

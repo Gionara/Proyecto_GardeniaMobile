@@ -1,0 +1,308 @@
+{
+    "categorias": [
+        {
+            "id": 1,
+            "nombre": "Herramientas"
+        },
+        {
+            "id": 2,
+            "nombre": "Plantas"
+        },
+        {
+            "id": 3,
+            "nombre": "Insumos"
+        }
+    ],
+    "subcategorias": [
+        {
+            "id": 1,
+            "nombre": "Tijeras",
+            "categoria_id": 1
+        },
+        {
+            "id": 2,
+            "nombre": "Palas",
+            "categoria_id": 1
+        },
+        {
+            "id": 3,
+            "nombre": "Otras Herramientas",
+            "categoria_id": 1
+        },
+        {
+            "id": 4,
+            "nombre": "Flores",
+            "categoria_id": 2
+        },
+        {
+            "id": 5,
+            "nombre": "Huerto",
+            "categoria_id": 2
+        },
+        {
+            "id": 6,
+            "nombre": "Plantas y Arboles",
+            "categoria_id": 2
+        },
+        {
+            "id": 7,
+            "nombre": "Tierra",
+            "categoria_id": 3
+        },
+        {
+            "id": 8,
+            "nombre": "Fertilizantes",
+            "categoria_id": 3
+        },
+        {
+            "id": 9,
+            "nombre": "Otros Insumos",
+            "categoria_id": 3
+        }
+    ],
+    "productos": [
+        {
+            "id": 20,
+            "nombre": "Tijeras podar asas grandes",
+            "precio": 10990,
+            "stock": 2,
+            "descripcion": "Es ideal para dar formar, realizar cortes complejos y recortes repetitivos a trav\u00e9s de sus cuchillas de precisi\u00f3n que cortan hasta la punta y que fomentan el crecimiento saludable en plantas y flores.",
+            "img": "assets/img/media/productos/tijera_1.png",
+            "subcategoria_id": 1
+        },
+        {
+            "id": 21,
+            "nombre": "Tijeras podar con mango rotatorio",
+            "precio": 14990,
+            "stock": 3,
+            "descripcion": "Ideal para personas que realizan podas a gran escala, as\u00ed como para quienes padecen artritis, reumatismo y s\u00edndrome del t\u00fanel carpiano.",
+            "img": "assets/img/media/productos/tijera_2.png",
+            "subcategoria_id": 1
+        },
+        {
+            "id": 22,
+            "nombre": "Tijera de podar hojas curva micro-tip",
+            "precio": 9989,
+            "stock": 16,
+            "descripcion": "Las Cuchillas Curvas de las Tijeras de Podar Micro-Tip\u00ae mejoran el alcance y la precisi\u00f3n de corte con sus cuchillas que cortan hasta la punta en espacios reducidos y fomentan el crecimiento saludable en las plantas.",
+            "img": "assets/img/media/productos/tijera_3.png",
+            "subcategoria_id": 1
+        },
+        {
+            "id": 23,
+            "nombre": "Tijera de podar de una mano corte bypass",
+            "precio": 14989,
+            "stock": 23,
+            "descripcion": "Eleva tus tareas de jardiner\u00eda a un nivel superior con nuestras tijeras de podar Fiskars, dise\u00f1adas meticulosamente.",
+            "img": "assets/img/media/productos/tijera_4.png",
+            "subcategoria_id": 1
+        },
+        {
+            "id": 24,
+            "nombre": "Pala Trasplantadora Manual para Jardin 200S",
+            "precio": 7990,
+            "stock": 12,
+            "descripcion": "Desarraigue y reubique las plantas, temporada tras temporada con el resistente trasplantador 200S. Cuenta con una cabeza de acero que no se romper\u00e1 ni aflojar\u00e1 cuando est\u00e9 cavando en un suelo duro.",
+            "img": "assets/img/media/productos/pala_1.jpg",
+            "subcategoria_id": 2
+        },
+        {
+            "id": 25,
+            "nombre": "Pala Jardiner\u00eda Fiskars Peque\u00f1a Tipo Cuchara 100S",
+            "precio": 9990,
+            "stock": 20,
+            "descripcion": "ala Jardiner\u00eda Fiskars Peque\u00f1a Tipo Cuchara 100S La Cuchara de tierra peque\u00f1a FiberComp 100S tiene un dise\u00f1o tipo cuchara que es perfecta para excavar o transportar tierra.",
+            "img": "assets/img/media/productos/pala_2.jpg",
+            "subcategoria_id": 2
+        },
+        {
+            "id": 26,
+            "nombre": "Pala Punta Mango Madera 120cm",
+            "precio": 21989,
+            "stock": 11,
+            "descripcion": "La pala se fabrica en acero al carbono especial de alta calidad, y se corta con l\u00e1ser.",
+            "img": "assets/img/media/productos/pala_3.jpg",
+            "subcategoria_id": 2
+        },
+        {
+            "id": 27,
+            "nombre": "Pala Manual Trasplantadora De Jard\u00edn Tmk19926",
+            "precio": 7490,
+            "stock": 25,
+            "descripcion": "Herramienta manual para trasplantar plantas, fabricado con materiales de alta calidad, ideal para trabajos de jard\u00edn en el hogar.",
+            "img": "assets/img/media/productos/pala_4_zSkG558.png",
+            "subcategoria_id": 2
+        },
+        {
+            "id": 28,
+            "nombre": "Kit Set De Herramientas Jardineria 3pzs Tramontina",
+            "precio": 8390,
+            "stock": 32,
+            "descripcion": "Kit Set De Herramientas Jardineria 3pzs Tramontina",
+            "img": "assets/img/media/productos/oherramienta_1.jpg",
+            "subcategoria_id": 3
+        },
+        {
+            "id": 29,
+            "nombre": "Guantes Para Jardiner\u00eda Con Garras Trabajo Jard\u00edn",
+            "precio": 24990,
+            "stock": 22,
+            "descripcion": "Par de guantes para jardiner\u00eda. Incluye 4 garras de pl\u00e1stico en el guante derecho. Son lavables y de escelente adherencia.",
+            "img": "assets/img/media/productos/oherramienta_2.jpg",
+            "subcategoria_id": 3
+        },
+        {
+            "id": 30,
+            "nombre": "Set 11 Piezas Herramientas Jardiner\u00eda Huerto Plantas Jardin",
+            "precio": 19899,
+            "stock": 13,
+            "descripcion": "Juego de jardiner\u00eda de 11 piezas: este juego esencial de jardiner\u00eda",
+            "img": "assets/img/media/productos/oherramienta_3.jpg",
+            "subcategoria_id": 3
+        },
+        {
+            "id": 31,
+            "nombre": "Kit Mini Herramientas Plantas Jardiner\u00eda Suculentas 15piezas",
+            "precio": 12490,
+            "stock": 18,
+            "descripcion": "Mini Kit de herramientas manuales de jardiner\u00eda para todas las necesidades de sus suculentas o plantas de menor tama\u00f1o.",
+            "img": "assets/img/media/productos/oherramienta_4.jpg",
+            "subcategoria_id": 3
+        },
+        {
+            "id": 32,
+            "nombre": "Fertilizante Germinal Abono Completo 1kg Anasac",
+            "precio": 6790,
+            "stock": 20,
+            "descripcion": "Fertilizante Germinal Abono Completo 1kg - Anasac El Fertilizante Germinal es granulado, balanceado y completo, contiene los elementos necesarios para un buen desarrollo vegetativo.",
+            "img": "assets/img/media/productos/fertilizante_1.jpg",
+            "subcategoria_id": 8
+        },
+        {
+            "id": 33,
+            "nombre": "Fertilizante Floraci\u00f3n 1kg Anasac",
+            "precio": 7860,
+            "stock": 32,
+            "descripcion": "Fertilizante Floraci\u00f3n 1kg Anasac",
+            "img": "assets/img/media/productos/fertilizante_3.jpg",
+            "subcategoria_id": 8
+        },
+        {
+            "id": 34,
+            "nombre": "Anasac Bio Fertilizante Huerto 500ml",
+            "precio": 6940,
+            "stock": 41,
+            "descripcion": "\"Bio Fertilizante Huerto 500ml - Anasac 100% natural Su formulaci\u00f3n \u201cListo para Usar\u201d no necesita diluci\u00f3n y se aplica v\u00eda foliar.",
+            "img": "assets/img/media/productos/fertilizante_4.jpg",
+            "subcategoria_id": 8
+        },
+        {
+            "id": 35,
+            "nombre": "Tierra de Hota",
+            "precio": 6990,
+            "stock": 29,
+            "descripcion": "Sustrato natural desarrollado a partir de la compostaci\u00f3n de hojas y residuos vegetales, que mejora las condiciones de los suelos, tanto para el desarrollo de prados como el  de otras plantas.",
+            "img": "assets/img/media/productos/tierra_1.jpg",
+            "subcategoria_id": 7
+        },
+        {
+            "id": 36,
+            "nombre": "BAZOOKA PLUS 250 CC",
+            "precio": 19920,
+            "stock": 23,
+            "descripcion": "Bazooka Plus\u00ae\ufe0f es un nuevo herbicida no selectivo post emergente, que act\u00faa principalmente por contacto.",
+            "img": "assets/img/media/productos/oinsumos_1.png",
+            "subcategoria_id": 9
+        },
+        {
+            "id": 37,
+            "nombre": "INSECTICIDA ARA\u00d1AS LISTO PARA USAR",
+            "precio": 9990,
+            "stock": 16,
+            "descripcion": "Insecticida l\u00edquido listo para usar para controlar ara\u00f1as en interiores y exteriores. no requiere diluci\u00f3n y es de baja toxicidad.",
+            "img": "assets/img/media/productos/oinsumos_2.jpg",
+            "subcategoria_id": 9
+        },
+        {
+            "id": 38,
+            "nombre": "INSECTICIDA CONTRA ACAROS EN AEROSOL",
+            "precio": 12990,
+            "stock": 32,
+            "descripcion": "Es un poderoso producto de acci\u00f3n instant\u00e1nea en formato aerosol controla todo tipo de \u00e1caros",
+            "img": "assets/img/media/productos/oinsumos_3.jpg",
+            "subcategoria_id": 9
+        },
+        {
+            "id": 39,
+            "nombre": "Semilla Flores Mezcla Perenne",
+            "precio": 1990,
+            "stock": 116,
+            "descripcion": "Las Flores Silvestres son una alternativa natural para agregar color y belleza a su jard\u00edn.",
+            "img": "assets/img/media/productos/flores_1.jpg",
+            "subcategoria_id": 4
+        },
+        {
+            "id": 40,
+            "nombre": "Semilla Flores Mezcla Rusticca",
+            "precio": 1990,
+            "stock": 149,
+            "descripcion": "Semilla Flores Mezcla Rusticca",
+            "img": "assets/img/media/productos/flores_2.jpg",
+            "subcategoria_id": 4
+        },
+        {
+            "id": 41,
+            "nombre": "Ficus Benjamino Mediano",
+            "precio": 29990,
+            "stock": 10,
+            "descripcion": "Planta de Interior, foto s\u00f3lo referencial.El Ficus Benjamina, tambi\u00e9n conocido como ficus tejedor o \u00e1rbol de caucho tejedor, es una planta de interior popular",
+            "img": "assets/img/media/productos/planta_1.jpg",
+            "subcategoria_id": 6
+        },
+        {
+            "id": 42,
+            "nombre": "Arbol de naranjo tronco trenzado",
+            "precio": 21990,
+            "stock": 12,
+            "descripcion": "Arbol de naranjo tronco trenzado 190 cm",
+            "img": "assets/img/media/productos/planta_2.jpg",
+            "subcategoria_id": 6
+        },
+        {
+            "id": 43,
+            "nombre": "Semilla Zapallo Italiano",
+            "precio": 990,
+            "stock": 65,
+            "descripcion": "Semilla Zapallo Italiano 5g",
+            "img": "assets/img/media/productos/huerto_1.jpeg",
+            "subcategoria_id": 5
+        },
+        {
+            "id": 44,
+            "nombre": "Semilla Pimenton Rojo",
+            "precio": 1290,
+            "stock": 122,
+            "descripcion": "Semilla Pimenton Rojo 5g",
+            "img": "assets/img/media/productos/huerto_2.jpg",
+            "subcategoria_id": 5
+        },
+        {
+            "id": 45,
+            "nombre": "Semilla Acelga",
+            "precio": 590,
+            "stock": 234,
+            "descripcion": "Semilla Acelga 5g",
+            "img": "assets/img/media/productos/huerto_3.jpg",
+            "subcategoria_id": 5
+        },
+        {
+            "id": 46,
+            "nombre": "AAAAAAAAAAAAAA",
+            "precio": 122222,
+            "stock": 0,
+            "descripcion": "AAAAAAA",
+            "img": "assets/img/media/productos/huerto_3_H3ULkQS.jpg",
+            "subcategoria_id": 1
+        }
+    ]
+}

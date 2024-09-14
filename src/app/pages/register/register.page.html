@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar><br>
+    <ion-title>
+    <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+    Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons><br>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!--FORMULARIO DE REGISTRO-->
+
+  <div class="container">
+
+    <div class="py-5 text-center">
+      <h2>Formulario de Registro</h2>
+    </div>
+
+    <div>
+      <h4 class="mb-3">Datos Personales</h4>
+
+      <form id="formulario_registro" class="needs-validation">
+        <small class="text-danger col-12"></small>
+        <div class="row g-3">
+          <div>
+            <label for="usuario" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" placeholder value required>
+            <small class="text-danger " id="usuario_error"></small>
+          </div>
+          <div>
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder value required>
+            <small class="text-danger " id="nombre_error"></small>
+          </div>
+
+          <div>
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" placeholder value required>
+            <small class="text-danger " id="apellido_error"></small>
+          </div>
+
+          <div>
+            <label for="email" class="form-label">Correo Electronico</label>
+            <div class="input-group has-validation">
+              <span class="input-group-text">"&#64;" </span>
+              <input type="text" class="form-control" id="email" name="email" placeholder="nombre@correo.com" required>
+              <small class="text-danger " id="email_error">
+              </small>
+            </div>
+          </div>
+          <div>
+            <label for="confirm_email" class="form-label">Confirmar Correo Electronico</label>
+            <div class="input-group has-validation">
+              <span class="input-group-text">"&#64;"</span>
+              <input type="text" class="form-control" id="confirm_email" name="confirm_email"
+                placeholder="nombre@correo.com" required>
+              <small class="text-danger " id="confirm_email_error"></small>
+            </div>
+          </div>
+          <div>
+            <label for="password" class="form-label">Contraseña</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
+                required>
+              <button type="button" class="btn btn-outline-secondary btn-sm rounded-end-5" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <small class="text-danger" id="password_error"></small>
+          </div>
+          <div >
+            <label for="confirm_password" class="form-label">Confirmar contraseña</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                placeholder="Contraseña" required>
+              <button type="button" class="btn btn-outline-secondary btn-sm rounded-end-5" id="toggleConfirmPassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <small class="text-danger col-12" id="confirm_password_error"></small>
+          </div>
+
+          <hr class="my-4">
+
+
+        </div>
+      </form>
+      <ion-button ion-button expand="block" [routerLink]="['/login']"  color="success" class="mb-2">Registrarse</ion-button>
+
+    </div>
+  </div>
+
+
+</ion-content>

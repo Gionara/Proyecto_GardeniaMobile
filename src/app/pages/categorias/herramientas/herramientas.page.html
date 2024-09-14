@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar><br>
+    <ion-title>
+      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      Herramientas</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button color="light"></ion-menu-button>
+          <ion-back-button color="light"></ion-back-button>
+      </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon color="light" name="person-circle-outline" width="50px"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar><br>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <h3 class="text-center ion-justify-content-center">Categorías de Herramientas</h3>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      
+        <ion-card [routerLink]="['/productos', 'Herramientas', 'Tijeras']">
+          <img src="assets/img/categoria/tijeras.jpg" />
+          <ion-card-header>
+            <ion-card-title>Tijeras</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card [routerLink]="['/productos', 'Herramientas', 'Palas']">
+          <img src="assets/img/categoria/palas.png" />
+          <ion-card-header>
+            <ion-card-title>Palas</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card [routerLink]="['/productos', 'Herramientas', 'Otras Herramientas']">
+          <img src="assets/img/categoria/otras_herramientas.jpg" />
+          <ion-card-header>
+            <ion-card-title>Otras Herramientas</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+      </ion-row>
+</ion-content>

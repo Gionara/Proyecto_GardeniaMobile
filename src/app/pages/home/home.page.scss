@@ -1,0 +1,110 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Dancing+Script:wght@700&family=MuseoModerno:ital,wght@1,800&display=swap');
+
+$color-primary: #FFA500;
+$color-secondary: #FFD700;
+$color-tertiary: #32CD32;
+$color-red: #aa2929f0;
+$color-dark: #333333;
+$color-light: #FFFFFF;
+$color-black: #000000;
+
+.dancing-script-font {
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-size: xx-large;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.comfortaa-font {
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+ion-icon {
+    font-size: 1.5rem;
+    color: $color-light;
+    width: 40px;
+    height: 40px;
+    margin-left:10px ;
+}
+
+ion-back-button{
+    color:$color-light;
+}
+
+
+ion-title {
+    color: $color-light;
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: normal;
+    margin: 0;
+    padding: 3;
+
+}
+
+ion-content {
+    --background: #FFFFFF;
+}
+ion-toolbar {
+    --background: #333333;
+    height: 100%;
+}
+h1 {
+    padding-top: 5px;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-size: 3rem;
+    font-weight: 700;
+    font-style:italic;
+    color: $color-light;
+}
+
+h2 {
+    font-size: 1.4rem;
+    font-family: "Comfortaa", sans-serif;
+    color: $color-primary;
+    font-weight: bold;
+}
+h4 {
+    font-size: 1.1rem;
+    font-family: "Comfortaa", sans-serif;
+    font-weight: bold;
+    color: $color-dark;
+}
+
+p {
+    font-family: "Comfortaa", sans-serif;
+    font-size: 1rem;
+    color: $color-light;
+}
+
+strong {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.3rem;
+    color: $color-dark;
+}
+ion-button { 
+    font-family: "Comfortaa", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.carousel-image {
+    height: 80; /* Establece una altura fija */
+    object-fit: cover ; /* Ajusta la imagen dentro del contenedor manteniendo la proporción */
+    width: 100%; /* Asegúrate de que las imágenes llenen el ancho del contenedor */
+  }
+  
+  .card img {
+    width: 100%;
+    height: 100px; /* Ajusta la altura según sea necesario */
+    object-fit: cover;
+  }
+    

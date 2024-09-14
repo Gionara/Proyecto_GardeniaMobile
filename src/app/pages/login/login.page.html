@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar><br>
+    <ion-title>
+    <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+    Iniciar seccion</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons><br>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <br><br>
+    <form id="login_form">
+      <div class="form-floating mb-3" >
+        <input type="Usuario" class="form-control rounded-3" [(ngModel)]="usuario_login" name="usuario_login"
+          placeholder="Nombre de Usuario" required>
+        <label for="usuario_login">Usuario</label>
+        <small class="text-danger" id="error_usuario"></small>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control rounded-3" [(ngModel)]="password_login" name="password_login"
+          placeholder="Password" required>
+        <label for="password_login">Contraseña</label>
+        <small class="text-danger" id="error_pass"></small>
+      </div>
+
+    </form>
+    <br>
+    <a class="text-center" [routerLink]="['/forgot-password']" ><h6 class="text-center">¿Olvidaste tu Contraseña?</h6> </a>
+    <br>
+    <ion-button (click)="iniciarSeccion()" ion-button expand="block" color="success" [routerLink]="['/home']" class="mb-2">Iniciar Sección</ion-button>
+    
+    <br>
+    <ion-button ion-button expand="block" color="secondary" [routerLink]="['/register']" class="mb-2">Registrarse</ion-button>
+
+  </div>
+
+
+</ion-content>

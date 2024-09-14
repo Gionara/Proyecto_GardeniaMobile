@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bienvenido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <div class="container text-center mt-5">
+    <h1 class="mt-3">Gardenia</h1>
+
+    <img src="assets/img/logo/logo_color.png" alt="Gardenia Logo" class="img-fluid text-center" width="150">
+    <h4 class="lead">~ Tu jardín en la palma de tu mano ~</h4>
+
+    <div class="mt-5">
+      <p>¡Regístrate y comienza a disfrutar de todas las funcionalidades que te ofrecemos!</p>
+      <ion-button ion-button expand="block" color="secondary" [routerLink]="['/register']" class="mb-2">Registrarse</ion-button>
+
+      <p>Si ya tienes una cuenta, inicia sesión</p>
+      <ion-button ion-button expand="block" color="success" [routerLink]="['/login']" class="mb-2">Iniciar Sesión</ion-button>
+
+      <p>Si no deseas registrarte, puedes continuar como invitado</p>
+      <ion-button expand="block" fill="outline" color="light" [routerLink]="['/home']">Continuar</ion-button>
+    </div>
+  </div>
+</ion-content>
