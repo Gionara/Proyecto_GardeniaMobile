@@ -1,6 +1,7 @@
+// login.page.ts
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../servicios/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,17 +10,20 @@ import {Router} from '@angular/router';
 })
 export class LoginPage implements OnInit {
   usuario_login: string = '';
-  password_login: String = '';
+  password_login: string = '';
+  error_message: string = '';
 
-  
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
   iniciarSeccion() {
-    let datosEnviar: NavigationExtras = {
-      queryParams: { usuario_login: this.usuario_login },
-    };
-    this.router.navigate(['/home'], datosEnviar);
+    this.authService.login(this.usuario_login, this.password_login).subscribe(success => {
+      if (success) {
+        this.router.navigate(['/home']);
+      } else {
+        this.error_message = 'Usuario o contraseña incorrectos';
+      }
+    });
   }
 }

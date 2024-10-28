@@ -6,7 +6,7 @@ import { ProductosPage } from './productos.page';
 const routes: Routes = [
   {
     path: '',
-    component: ProductosPage
+    component: ProductosPage  // Asegúrate de que esto esté correctamente asignado
   }
 ];
 

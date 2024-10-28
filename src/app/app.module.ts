@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';  // Importar HttpClientModule
-import { ProductosComponent } from './productos/productos.component'; // Ajusta la ruta si es necesario
-import { AllProductosComponent } from './all-productos/all-productos.component';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent   , ProductosComponent, AllProductosComponent
+  declarations: [AppComponent 
   ],
   imports: [
     BrowserModule,
@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     HttpClientModule  // Agregar HttpClientModule aquí
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     
   ],

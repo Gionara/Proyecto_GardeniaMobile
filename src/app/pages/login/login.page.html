@@ -1,41 +1,34 @@
+<!-- login.page.html -->
 <ion-header>
-  <ion-toolbar><br>
+  <ion-toolbar>
     <ion-title>
-    <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
-    Iniciar seccion</ion-title>
+      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      Iniciar sesión
+    </ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-    </ion-buttons><br>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div>
-    <br><br>
     <form id="login_form">
-      <div class="form-floating mb-3" >
-        <input type="Usuario" class="form-control rounded-3" [(ngModel)]="usuario_login" name="usuario_login"
-          placeholder="Nombre de Usuario" required>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control rounded-3" [(ngModel)]="usuario_login" name="usuario_login"
+               placeholder="Nombre de Usuario" required>
         <label for="usuario_login">Usuario</label>
-        <small class="text-danger" id="error_usuario"></small>
+        <small class="text-danger" *ngIf="error_message">{{ error_message }}</small>
       </div>
       <div class="form-floating mb-3">
         <input type="password" class="form-control rounded-3" [(ngModel)]="password_login" name="password_login"
-          placeholder="Password" required>
+               placeholder="Password" required>
         <label for="password_login">Contraseña</label>
-        <small class="text-danger" id="error_pass"></small>
+        <small class="text-danger">{{ error_message }}</small>
       </div>
-
     </form>
-    <br>
-    <a class="text-center" [routerLink]="['/forgot-password']" ><h6 class="text-center">¿Olvidaste tu Contraseña?</h6> </a>
-    <br>
-    <ion-button (click)="iniciarSeccion()" ion-button expand="block" color="success" [routerLink]="['/home']" class="mb-2">Iniciar Sección</ion-button>
-    
-    <br>
-    <ion-button ion-button expand="block" color="secondary" [routerLink]="['/register']" class="mb-2">Registrarse</ion-button>
-
+    <a class="text-center" [routerLink]="['/forgot-password']"><h6 class="text-center">¿Olvidaste tu Contraseña?</h6></a>
+    <ion-button (click)="iniciarSeccion()" expand="block" color="success" class="mb-2">Iniciar Sección</ion-button>
+    <ion-button expand="block" color="secondary" [routerLink]="['/register']" class="mb-2">Registrarse</ion-button>
   </div>
-
-
 </ion-content>
