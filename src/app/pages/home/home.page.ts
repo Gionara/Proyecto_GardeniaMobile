@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
- 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -8,17 +7,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  mesaje:string ="";
-  constructor(private rutaActiva: ActivatedRoute) { 
+  mensaje: string = "";
 
-    this.rutaActiva.queryParams.subscribe(params =>{
-      if(params['usuario_login']){
-        this.mesaje = params['usuario_login']
-      }
-    })
-  }
+  constructor() {}
 
   ngOnInit() {
+    // Obtener el nombre del usuario desde localStorage
+    const usuario = localStorage.getItem('nombre_del_usuario');
+    if (usuario) {
+      this.mensaje = `Bienvenido ${usuario}`;
+    }
   }
-
 }

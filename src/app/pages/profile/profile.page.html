@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div>
+    <h2>Información del Usuario</h2>
+    <p><strong>Usuario:</strong> {{ usuario }}</p>
+    <p><strong>Nombre:</strong> {{ nombre }}</p>
+    <p><strong>Apellido:</strong> {{ apellido }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ email }}</p>
+
+    <!-- Botón de Logout -->
+    <ion-button expand="full" color="danger" (click)="logout()">Cerrar Sesión</ion-button>
+  </div>
+</ion-content>

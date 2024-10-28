@@ -7,14 +7,14 @@
       <ion-menu-button color="light"></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-icon color="light" name="person-circle-outline" width="50px"></ion-icon>
+      <ion-icon [routerLink]="['/profile']"  color="light" name="person-circle-outline" width="50px"></ion-icon>
     </ion-buttons>
   </ion-toolbar><br>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-<strong> Bienvenido {{mesaje}} </strong>
+  <h2>{{ mensaje }}</h2>
 <!-- CARRUSEL-->
  <br>
 <div id="carouselExampleAutoplaying" class="carousel carousel-dark slide" data-bs-ride="carousel">
