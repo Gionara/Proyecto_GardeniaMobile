@@ -7,10 +7,11 @@
 <ion-content class="ion-padding">
   <div>
     <h2>Información del Usuario</h2>
-    <p><strong>Usuario:</strong> {{ usuario }}</p>
     <p><strong>Nombre:</strong> {{ nombre }}</p>
-    <p><strong>Apellido:</strong> {{ apellido }}</p>
     <p><strong>Correo Electrónico:</strong> {{ email }}</p>
+
+    <!-- Foto de perfil -->
+    <img *ngIf="fotoUrl" [src]="fotoUrl" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%;">
 
     <!-- Botón de Logout -->
     <ion-button expand="full" color="danger" (click)="logout()">Cerrar Sesión</ion-button>

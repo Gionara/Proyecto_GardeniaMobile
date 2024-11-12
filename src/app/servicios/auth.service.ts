@@ -1,72 +1,75 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore'; // Necesario para Firestore
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isAuthenticated$ = new BehaviorSubject<boolean>(false);
-  private token: string | null = null;
+  constructor(
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore
+  ) {}
 
-  constructor() {
-    this.loadToken();
+  // Método para verificar si el usuario está autenticado
+  isAuthenticated(): Observable<boolean> {
+    return this.afAuth.authState.pipe(
+      map(user => !!user) // Retorna true si el usuario está autenticado, false en caso contrario
+    );
   }
 
-  // Cargar el token desde localStorage al iniciar el servicio
-  private loadToken(): void {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      this.token = storedToken;
-      this.isAuthenticated$.next(true);
+  // Otros métodos de autenticación (login, logout, register, etc.) van aquí
+  async login(email: string, password: string): Promise<any> {
+    try {
+      return await this.afAuth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error);
+      throw error;
     }
   }
 
-  // Método de registro para almacenar usuario y contraseña
-// auth.service.ts
-register(usuario: string, password: string, nombre: string, apellido: string, email: string): Observable<boolean> {
-  if (localStorage.getItem(usuario)) {
-      return of(false); // Usuario ya existe
+  async logout(): Promise<void> {
+    try {
+      await this.afAuth.signOut();
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      throw error;
+    }
   }
-  // Guardamos el usuario y la contraseña en localStorage
-  const user = {
-      password: password,
-      nombre: nombre,
-      apellido: apellido,
-      email: email
-  };
-  localStorage.setItem(usuario, JSON.stringify(user)); // Almacenar como un objeto JSON
-  return of(true);
-}
 
-  
+  async register(email: string, password: string, nombre: string, apellido: string): Promise<any> {
+    try {
+      // Crear usuario con email y contraseña
+      const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      
+      // Actualizar el perfil del usuario con nombre y apellido
+      await userCredential.user?.updateProfile({
+        displayName: `${nombre} ${apellido}`,  // Nombre completo
+      });
 
-// auth.service.ts
-login(username: string, password: string): Observable<boolean> {
-  const storedUser = localStorage.getItem(username);
-  if (storedUser) {
-      const user = JSON.parse(storedUser);
-      if (user.password === password) {
-          this.token = 'fake-jwt-token';
-          localStorage.setItem('token', this.token);
-          localStorage.setItem('nombre_del_usuario', username); // Guardar el nombre del usuario
-          this.isAuthenticated$.next(true);
-          return of(true);
-      }
+      // Almacenar el nombre y apellido en Firestore (base de datos)
+      await this.firestore.collection('usuarios').doc(userCredential.user?.uid).set({
+        nombre: nombre,
+        apellido: apellido,
+        email: email,
+      }).then(() => {
+        console.log('Usuario guardado en Firestore');
+      }).catch((error) => {
+        console.error('Error al guardar usuario en Firestore:', error);
+      });
+
+      return userCredential; // Retorna el userCredential para usarlo donde lo necesites
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      throw error;
+    }
   }
-  return of(false);
-}
 
-  
-
-logout() {
-  localStorage.removeItem('token'); // Elimina el token
-  localStorage.removeItem('nombre_del_usuario'); // Elimina el nombre del usuario
-  // Puedes eliminar cualquier otro dato que quieras
-  this.isAuthenticated$.next(false); // Actualiza el estado de autenticación
-}
-
-  isAuthenticated(): Observable<boolean> {
-    return this.isAuthenticated$.asObservable();
+  async getCurrentUserId(): Promise<string | null> {
+    const user = await this.afAuth.currentUser;
+    return user ? user.uid : null;
   }
 }

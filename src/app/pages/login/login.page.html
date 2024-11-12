@@ -16,8 +16,8 @@
     <form id="login_form">
       <div class="form-floating mb-3">
         <input type="text" class="form-control rounded-3" [(ngModel)]="usuario_login" name="usuario_login"
-               placeholder="Nombre de Usuario" required>
-        <label for="usuario_login">Usuario</label>
+               placeholder="Correo electronico" required>
+        <label for="usuario_login">Correo electronico</label>
         <small class="text-danger" *ngIf="error_message">{{ error_message }}</small>
       </div>
       <div class="form-floating mb-3">

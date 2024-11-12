@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CartService } from './servicios/cart.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-  mesaje:string ="";
-  constructor(private rutaActiva: ActivatedRoute) { 
+export class AppComponent implements OnInit {
+  cartItemCount: number = 0;
 
-    this.rutaActiva.queryParams.subscribe(params =>{
-      if(params['usuario_login']){
-        this.mesaje = params['usuario_login']
-      }
-    })
+  constructor(private cartService: CartService) {}
+
+  ngOnInit() {
+    // Suscribirse a los cambios en el conteo del carrito
+    this.cartService.cartItemCount$.subscribe(count => {
+      this.cartItemCount = count;
+    });
   }
 }

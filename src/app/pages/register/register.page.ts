@@ -1,5 +1,5 @@
-// register.page.ts
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../servicios/auth.service';
 import { Router } from '@angular/router';
 
@@ -8,32 +8,40 @@ import { Router } from '@angular/router';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
-  usuario: string = '';
-  nombre: string = '';
-  apellido: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  error_message: string = '';
+export class RegistroPage {
+  registroForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  ngOnInit() { }
-
-  registrarUsuario() {
-    if (this.password !== this.confirmPassword) {
-      this.error_message = 'Las contraseñas no coinciden';
-      return;
-    }
-
-    this.authService.register(this.usuario, this.password, this.nombre, this.apellido, this.email).subscribe(success => {
-      if (success) {
-        this.router.navigate(['/login']);
-      } else {
-        this.error_message = 'El usuario ya existe. Por favor, elige otro nombre de usuario.';
-      }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.registroForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]], // Validación de correo
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
     });
-    
+  }
+
+  async registrar() {
+    if (this.registroForm.valid) {
+      const { email, password, confirmPassword, nombre, apellido } = this.registroForm.value;
+  
+      // Ahora se compara correctamente con confirmPassword
+      if (password === confirmPassword) {
+        try {
+          await this.authService.register(email, password, nombre, apellido);
+          this.router.navigate(['/login']);  // Redirige al login después del registro
+        } catch (error) {
+          console.error('Error en el registro:', error);
+        }
+      } else {
+        console.log('Las contraseñas no coinciden');
+      }
+    } else {
+      console.error('Formulario inválido');
+    }
   }
 }

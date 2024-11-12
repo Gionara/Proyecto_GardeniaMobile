@@ -68,14 +68,25 @@ const routes: Routes = [
       import('./productos/productos/productos.module').then(
         (m) => m.ProductosPageModule
       ),
+  }, 
+  {
+    path: 'all-productos',
+    loadChildren: () => import('./productos/all-productos/all-productos.module').then( m => m.AllProductosPageModule)
   },
   {
     path: 'profile',
     loadChildren: () =>
       import('./pages/profile/profile.module').then((m) => m.ProfilePageModule),
     canActivate: [AuthGuard],
+  },  {
+    path: 'cart',
+    loadChildren: () => import('./pages/cart/cart.module').then( m => m.CartPageModule)
   },
   { path: '**', redirectTo: 'welcome', pathMatch: 'full' },
+
+
+ 
+
   // Ruta comodín
 ];
 

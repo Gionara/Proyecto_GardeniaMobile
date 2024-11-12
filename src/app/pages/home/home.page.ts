@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../servicios/auth.service';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  mensaje: string = "";
+  nombre: string | null = '';
 
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router, private afAuth: AngularFireAuth) { }
 
   ngOnInit() {
-    // Obtener el nombre del usuario desde localStorage
-    const usuario = localStorage.getItem('nombre_del_usuario');
-    if (usuario) {
-      this.mensaje = `Bienvenido ${usuario}`;
-    }
+    // Obtener el usuario autenticado
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        // Si el usuario está autenticado, obtén sus datos
+        this.nombre = user.displayName || 'Usuario';
+
+      }
+    });
   }
 }

@@ -18,7 +18,7 @@
   <div id="productos-container">
     <h3> {{ categoriaNombre }} - {{ subcategoriaNombre }}</h3>
     <ion-grid>
-      <ion-row *ngIf="productos.length > 0; else noProductos"  class="justify-content-center">
+      <ion-row class="justify-content-center">
         <ion-col size="8"  *ngFor="let producto of productos">
           <ion-card [routerLink]="['/producto-detalle', producto.id]" class="producto-card">
             <img [src]="producto.img" [alt]="producto.nombre" />
@@ -29,7 +29,7 @@
               <h4>Precio: ${{ producto.precio }}</h4>
               <p  >Stock: {{ producto.stock }} unidades</p>
               <p class="descripcion">{{ producto.descripcion }}</p>
-              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" (click)="addToCart(producto)"  class="añadir-btn">
+              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" class="añadir-btn">
                 Añadir al Carrito
               </ion-button>
               <ion-button *ngIf="producto.stock === 0" expand="full" color="medium" disabled class="agotado-btn">

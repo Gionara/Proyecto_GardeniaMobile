@@ -2,10 +2,13 @@
 
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
-    <ion-toolbar color="dark">
-      <ion-title>Gardenia Shop</ion-title>
-      <ion-buttons slot="start">
-        <img src="assets/img/logo/logo_color.png" alt="logo" width="35px" style="padding-right: 4px;">
+    <ion-toolbar>
+      <ion-title>Gardenia</ion-title>
+      <ion-buttons slot="end">
+        <ion-button routerLink="/carrito">
+          <ion-icon name="cart-outline"></ion-icon>
+          <ion-badge *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
+        </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -19,13 +22,13 @@
           <ion-item button [routerLink]="['/herramientas']">
             <ion-label>Ver Herramientas</ion-label>
           </ion-item>
-          <ion-item button [routerLink]="['/productos', 'herramientas', 'Tijeras']">
+          <ion-item button [routerLink]="['/productos', 'Herramientas', 'Tijeras']"> 
             <ion-label>Tijeras</ion-label>
           </ion-item>
-          <ion-item button [routerLink]="['/productos', 'herramientas', 'Palas']">
+          <ion-item button [routerLink]="['/productos', 'Herramientas', 'Palas']">
             <ion-label>Palas</ion-label>
           </ion-item>
-          <ion-item button [routerLink]="['/productos', 'herramientas', 'Otras Herramientas']">
+          <ion-item button [routerLink]="['/productos', 'Herramientas', 'Otras Herramientas']">
             <ion-label>Otras Herramientas</ion-label>
           </ion-item>
         </ion-menu-toggle>
@@ -38,13 +41,13 @@
           <ion-item button [routerLink]="['/plantas']">
             <ion-label>Ver Plantas y Semillas</ion-label>
           </ion-item>
-          <ion-item button [routerLink]=" ['/productos', 'plantas', 'Flores']">
+          <ion-item button [routerLink]=" ['/productos', 'Plantas', 'Flores']">
             <ion-label>Flores</ion-label>
           </ion-item>
-          <ion-item button [routerLink]="['/productos', 'plantas', 'Plantas y Arboles']">
+          <ion-item button [routerLink]="['/productos', 'Plantas', 'Plantas y Arboles']">
             <ion-label>Plantas y Árboles</ion-label>
           </ion-item>
-          <ion-item button [routerLink]="['/productos', 'plantas', 'Huerto']">
+          <ion-item button [routerLink]="['/productos', 'Plantas', 'Huerto']">
             <ion-label>Huerto</ion-label>
           </ion-item>
         </ion-menu-toggle>
@@ -74,7 +77,7 @@
       <ion-item>
         <ion-icon name="pricetag-outline" slot="start"></ion-icon>
         <ion-menu-toggle auto-hide="false">
-          <ion-item button [routerLink]="['/productos']">
+          <ion-item button [routerLink]="['/all-productos']">
             <ion-label>Ver todos los productos</ion-label>
           </ion-item>
         </ion-menu-toggle>
@@ -83,7 +86,7 @@
       <ion-item>
          <ion-icon name="cart-outline" slot="start"></ion-icon>
         <ion-menu-toggle auto-hide="false">
-          <ion-item button [routerLink]="['/carrito']">
+          <ion-item button [routerLink]="['/cart']">
             <ion-label>Ir al Carrito de Compras</ion-label>
           </ion-item>
         </ion-menu-toggle>
