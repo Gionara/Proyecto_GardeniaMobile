@@ -9,9 +9,9 @@
   <ion-list *ngIf="cartItems.length > 0; else emptyCart">
     <ion-item *ngFor="let item of cartItems">
       <ion-label>
-        <h2>{{ item.name }}</h2>
-        <p>{{ item.description }}</p>
-        <p>Precio: {{ item.price | currency }}</p>
+        <h2>{{ item.nombre }}</h2>
+        <img [src]="item.img" [alt]="item.nombre" width="50px" />
+        <p>Precio: {{ item.precio | currency }}</p>
       </ion-label>
       <ion-button color="danger" slot="end" (click)="removeItem(item.id)">Eliminar</ion-button>
     </ion-item>
@@ -24,5 +24,8 @@
     <div class="ion-padding">
       <h4>Tu carrito está vacío</h4>
     </div>
+    <ion-item>
+      <h2>Total: {{ totalAmount | currency }}</h2>
+    </ion-item>
   </ng-template>
 </ion-content>

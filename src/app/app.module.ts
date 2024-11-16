@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire/compat'; // Para compatibilidad
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'; // Para la autenticación
 import { environment } from '../environments/environment'; // Donde se encuentra la configuración de Firebase
 
+
 @NgModule({
   declarations: [AppComponent 
   ],

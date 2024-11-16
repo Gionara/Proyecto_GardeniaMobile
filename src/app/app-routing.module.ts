@@ -54,14 +54,7 @@ const routes: Routes = [
         (m) => m.HerramientasPageModule
       ),
   },
-  {
-    path: 'carrito',
-    loadChildren: () =>
-      import('./pages/carrito/carrito/carrito.module').then(
-        (m) => m.CarritoPageModule
-      ),
-    canActivate: [AuthGuard],
-  },
+
   {
     path: 'productos/:categoria/:subcategoria',
     loadChildren: () =>

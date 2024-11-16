@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-import { ProductosPageRoutingModule } from './productos-routing.module';
-import { ProductosPage } from './productos.page'; // Asegúrate de usar ProductosPage
+import { ProductosPage } from './productos.page'; // Asegúrate de que la importación sea correcta
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductosPageRoutingModule
+    RouterModule.forChild([{ path: '', component: ProductosPage }]),
   ],
-  declarations: [ProductosPage] // Aquí debería estar ProductosPage, no ProductosComponent
+  declarations: [ProductosPage]
 })
 export class ProductosPageModule {}

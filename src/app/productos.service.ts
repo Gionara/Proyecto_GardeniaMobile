@@ -5,13 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductosService {
+export class ProductsService {
+  constructor(private http: HttpClient) {}
 
-  private jsonFile = 'assets/productos.json';
-
-  constructor(private http: HttpClient) { }
-
-  getProductos(): Observable<any> {
-    return this.http.get<any>(this.jsonFile);
+  getProducts(): Observable<any> {
+    return this.http.get('/assets/products.json');
   }
 }

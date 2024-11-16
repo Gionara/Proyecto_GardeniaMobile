@@ -21,12 +21,13 @@ export class CartPage implements OnInit {
     if (itemsObservable) {
       itemsObservable.subscribe((items: any[]) => {
         this.cartItems = items;
+        this.calculateTotalAmount();
       });
     }
   }
   calculateTotalAmount() {
     this.totalAmount = this.cartItems.reduce((total, item) => {
-      return total + item.price * item.quantity; // Asegúrate de tener un campo de precio y cantidad
+      return total + item.precio * item.quantity; // Asegúrate de tener un campo de precio y cantidad
     }, 0);
   }
 
@@ -34,6 +35,7 @@ export class CartPage implements OnInit {
   removeItem(itemId: string) {
     this.cartService.removeItem(itemId).then(() => {
       this.cartItems = this.cartItems.filter(item => item.id !== itemId);
+      this.calculateTotalAmount();
     });
   }
 
@@ -41,6 +43,7 @@ export class CartPage implements OnInit {
   clearCart() {
     this.cartService.clearCart().then(() => {
       this.cartItems = [];
+      this.calculateTotalAmount();
     });
   }
 }
