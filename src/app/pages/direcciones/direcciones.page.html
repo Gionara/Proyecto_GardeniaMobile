@@ -5,21 +5,14 @@
 </ion-header>
 
 <ion-content>
-  <div class="map-container">
-    <google-map [center]="center" [options]="options" style="height: 400px; width: 100%;">
-      <map-marker *ngFor="let marker of markers" [position]="marker.position" [title]="marker.title"></map-marker>
-    </google-map>
-    
-    
-  </div>
+  <!-- Mapa -->
+  <div class="map-container" style="height: 400px; width: 100%;" id="map"></div>
+  
+  <input id="autocomplete" type="text" placeholder="Escribe una dirección" />
 
-  <ion-item>
-    <ion-label position="stacked">Dirección</ion-label>
-    <ion-input [(ngModel)]="direccion" placeholder="Introduce tu dirección"></ion-input>
-  </ion-item>
+  <ion-button expand="block" (click)="agregarDireccion()">Guardar Dirección</ion-button>
 
-  <ion-button expand="block" (click)="agregarDireccion()">Guardar</ion-button>
-
+  <!-- Lista de direcciones -->
   <ion-list>
     <ion-item *ngFor="let dir of direcciones">
       {{ dir.direccion }}

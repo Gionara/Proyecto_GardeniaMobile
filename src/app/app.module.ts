@@ -26,7 +26,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Aseg
     IonicModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig), // Inicializa Firebase
     AngularFireAuthModule, // Módulo para autenticación
-    AngularFirestoreModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
