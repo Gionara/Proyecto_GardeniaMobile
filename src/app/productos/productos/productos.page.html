@@ -18,6 +18,7 @@
   <div id="productos-container">
     <h3> {{ categoriaNombre }} - {{ subcategoriaNombre }}</h3>
     <ion-grid>
+      <ng-container *ngIf="productos$ | async as productos; else noProductos">
       <ion-row *ngIf="productos.length > 0; else noProductos"  class="justify-content-center">
         <ion-col size="8"  *ngFor="let producto of productos">
           <ion-card [routerLink]="['/producto-detalle', producto.id]" class="producto-card">
@@ -39,9 +40,17 @@
           </ion-card>
         </ion-col>
       </ion-row>
+    </ng-container>
     </ion-grid>
+
+    
+
     <ng-template #noProductos>
-      <p>No hay productos disponibles en esta categoría y subcategoría.</p>
+      <ion-row class="justify-content-center">
+        <ion-col size="12" class="text-center">
+          No hay productos disponibles.
+        </ion-col>
+      </ion-row>
     </ng-template>
   </div>
 </ion-content>

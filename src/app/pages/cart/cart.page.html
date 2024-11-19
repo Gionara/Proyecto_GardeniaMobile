@@ -1,31 +1,33 @@
-<!-- src/app/pages/cart/cart.page.html -->
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Carrito de Compras</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <ion-list *ngIf="cartItems.length > 0; else emptyCart">
     <ion-item *ngFor="let item of cartItems">
       <ion-label>
         <h2>{{ item.nombre }}</h2>
-        <img [src]="item.img" [alt]="item.nombre" width="50px" />
-        <p>Precio: {{ item.precio | currency }}</p>
+        <img [src]="item.img" width="50px" [alt]="item.nombre" />
+
+        <p>Cantidad: {{ item.quantity }}</p>
+        <p>Precio unitario: {{ item.precio | currency }}</p>
+        <p>Subtotal: {{ item.precio * item.quantity | currency }}</p>
       </ion-label>
+      
+      <!-- Controles para ajustar la cantidad -->
+      <ion-button slot="end" (click)="decreaseQuantity(item)">-</ion-button>
+      <input type="number" [(ngModel)]="item.quantity" (ionChange)="updateQuantity(item, $event)">
+      <ion-button slot="end" (click)="increaseQuantity(item)">+</ion-button>
+      
       <ion-button color="danger" slot="end" (click)="removeItem(item.id)">Eliminar</ion-button>
     </ion-item>
+
+    <!-- Mostrar el total general -->
     <ion-item>
       <h2>Total: {{ totalAmount | currency }}</h2>
     </ion-item>
     <ion-button expand="block" color="danger" (click)="clearCart()">Vaciar Carrito</ion-button>
   </ion-list>
+
   <ng-template #emptyCart>
     <div class="ion-padding">
       <h4>Tu carrito está vacío</h4>
     </div>
-    <ion-item>
-      <h2>Total: {{ totalAmount | currency }}</h2>
-    </ion-item>
   </ng-template>
 </ion-content>

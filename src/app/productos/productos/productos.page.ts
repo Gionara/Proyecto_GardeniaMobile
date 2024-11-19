@@ -4,7 +4,7 @@ import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ProductsService } from '../../productos.service';
-import { Firestore, collection, query, where, getDocs, doc, updateDoc, addDoc } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore'; // Mantén solo AngularFirestore
 import { AuthService } from '../../servicios/auth.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { AuthService } from '../../servicios/auth.service';
 export class ProductosPage implements OnInit {
   categoriaNombre: string = '';
   subcategoriaNombre: string = '';
-  productos: any[] = [];
+  productos$: Observable<any[]> = new Observable();
   cartItems$: Observable<any[]> = of([]);
 
   constructor(
@@ -23,11 +23,12 @@ export class ProductosPage implements OnInit {
     private route: ActivatedRoute,
     private cartService: CartService,
     private dataService: DataService,
-    private firestore: Firestore,
-    private authService: AuthService,
+    private firestore: AngularFirestore, // Usa solo AngularFirestore
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.productos$ = this.firestore.collection('productos').valueChanges();
     this.cartItems$ = this.cartService.getCartItems();
 
     const categoriaNombre = this.route.snapshot.paramMap.get('categoria');
@@ -35,12 +36,17 @@ export class ProductosPage implements OnInit {
 
     this.dataService.getData().subscribe(data => {
       const categoria = data.categorias.find((cat: any) => cat.nombre === categoriaNombre);
-      const subcategoria = data.subcategorias.find((subcat: any) => subcat.nombre === subcategoriaNombre && subcat.categoria_id === categoria.id);
+      const subcategoria = data.subcategorias.find(
+        (subcat: any) =>
+          subcat.nombre === subcategoriaNombre && subcat.categoria_id === categoria.id
+      );
 
       if (categoria && subcategoria) {
         this.categoriaNombre = categoria.nombre;
         this.subcategoriaNombre = subcategoria.nombre;
-        this.productos = data.productos.filter((producto: any) => producto.subcategoria_id === subcategoria.id);
+        this.productos$ = of(
+          data.productos.filter((producto: any) => producto.subcategoria_id === subcategoria.id)
+        );
       }
     });
   }
@@ -49,16 +55,16 @@ export class ProductosPage implements OnInit {
     try {
       const userId = await this.authService.getCurrentUserId();
       if (userId) {
-        const cartRef = collection(this.firestore, `users/${userId}/cart`);
-        const cartQuery = query(cartRef, where('id', '==', product.id));
-        const cartItem = await getDocs(cartQuery);
+        const cartRef = this.firestore.collection(`users/${userId}/cart`);
+        const cartQuery = cartRef.ref.where('id', '==', product.id);
+        const cartItem = await cartQuery.get();
 
         if (!cartItem.empty) {
           const itemDoc = cartItem.docs[0];
           const itemData = itemDoc.data() as { quantity?: number };
-          await updateDoc(doc(cartRef, itemDoc.id), { quantity: (itemData.quantity || 1) + 1 });
+          await cartRef.doc(itemDoc.id).update({ quantity: (itemData.quantity || 1) + 1 });
         } else {
-          await addDoc(cartRef, { ...product, quantity: 1 });
+          await cartRef.add({ ...product, quantity: 1 });
         }
         await this.updateCartItemCount();
       }
@@ -90,3 +96,4 @@ export class ProductosPage implements OnInit {
     }
   }
 }
+

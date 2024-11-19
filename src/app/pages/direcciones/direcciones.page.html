@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Direcciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="map-container">
+    <google-map [center]="center" [options]="options" style="height: 400px; width: 100%;">
+      <map-marker *ngFor="let marker of markers" [position]="marker.position" [title]="marker.title"></map-marker>
+    </google-map>
+    
+    
+  </div>
+
+  <ion-item>
+    <ion-label position="stacked">Dirección</ion-label>
+    <ion-input [(ngModel)]="direccion" placeholder="Introduce tu dirección"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="agregarDireccion()">Guardar</ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let dir of direcciones">
+      {{ dir.direccion }}
+      <ion-button fill="clear" slot="end" (click)="eliminarDireccion(dir.id)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

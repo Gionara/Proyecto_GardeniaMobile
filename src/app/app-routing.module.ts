@@ -67,6 +67,10 @@ const routes: Routes = [
     loadChildren: () => import('./productos/all-productos/all-productos.module').then( m => m.AllProductosPageModule)
   },
   {
+    path: 'direcciones',
+    loadChildren: () => import('./pages/direcciones/direcciones.module').then( m => m.DireccionesPageModule)
+  },
+  {
     path: 'profile',
     loadChildren: () =>
       import('./pages/profile/profile.module').then((m) => m.ProfilePageModule),
@@ -76,6 +80,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cart/cart.module').then( m => m.CartPageModule)
   },
   { path: '**', redirectTo: 'welcome', pathMatch: 'full' },
+  
+
 
 
  

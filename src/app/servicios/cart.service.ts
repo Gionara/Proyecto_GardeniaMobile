@@ -1,52 +1,71 @@
-import { Injectable } from '@angular/core';
+import { Injectable,  OnDestroy  } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { AuthService } from './auth.service';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CartService {
+export class CartService implements OnDestroy { // Implementar OnDestroy
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable();
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthService
   ) {
-    this.firestore.collection('test').valueChanges().subscribe(data => {
-      console.log("Firestore conectado:", data);
+    // Inicializamos el conteo de elementos del carrito al cargar el servicio
+    this.authService.getCurrentUserId().then((userId) => {
+      if (userId) {
+        this.updateCartItemCount();
+      }
     });
+    
   }
 
-
-  // Incrementa la cantidad del producto en el carrito
-  async incrementItemQuantity(itemId: string): Promise<void> {
+  async updateItem(item: any): Promise<void> {
     const userId = await this.authService.getCurrentUserId();
     if (userId) {
-      const itemRef: AngularFirestoreDocument = this.firestore.doc(`users/${userId}/cart/${itemId}`);
-      const item = await itemRef.get().toPromise();
-      
-      if (item?.exists) {  // Verificamos si item existe
-        const data = item.data() as { quantity?: number }; // Asignamos tipo al dato
-        const quantity = (data?.quantity || 1) + 1; // Usamos data?.quantity para asegurar existencia
-        await itemRef.update({ quantity });
-        await this.updateCartItemCount();
-      }
+      const itemRef: AngularFirestoreDocument = this.firestore.doc(`users/${userId}/cart/${item.id}`);
+      await itemRef.update(item);
     }
   }
-
-  // Decrementa la cantidad del producto en el carrito
+  /**
+   * Incrementar la cantidad de un producto en el carrito.
+   */
+  async incrementItemQuantity(itemId: string): Promise<void> {
+    const userId = await this.authService.getCurrentUserId();
+    if (!userId) {
+      console.warn('Usuario no autenticado');
+      return;
+    }
+  
+    const itemRef: AngularFirestoreDocument = this.firestore.doc(`users/${userId}/cart/${itemId}`);
+    const itemSnapshot = await itemRef.get().toPromise();
+  
+    if (!itemSnapshot?.exists) {
+      console.warn(`El elemento con ID ${itemId} no existe en el carrito.`);
+      return;
+    }
+  
+    const data = itemSnapshot.data() as { quantity?: number };
+    const quantity = (data?.quantity || 1) + 1;
+    await itemRef.update({ quantity });
+    await this.updateCartItemCount();
+  }
+  
   async decrementItemQuantity(itemId: string): Promise<void> {
     const userId = await this.authService.getCurrentUserId();
     if (userId) {
       const itemRef: AngularFirestoreDocument = this.firestore.doc(`users/${userId}/cart/${itemId}`);
-      const item = await itemRef.get().toPromise();
-
-      if (item?.exists) {  // Verificamos si item existe
-        const data = item.data() as { quantity?: number }; // Asignamos tipo al dato
+      const itemSnapshot = await itemRef.get().toPromise();
+  
+      if (itemSnapshot && itemSnapshot.exists) { // Validamos si itemSnapshot existe
+        const data = itemSnapshot.data() as { quantity?: number }; // Asignamos tipo al dato
         const quantity = (data?.quantity || 1) - 1;
-        
+  
         if (quantity > 0) {
           await itemRef.update({ quantity });
         } else {
@@ -56,80 +75,119 @@ export class CartService {
       }
     }
   }
+  
 
-  // Método para añadir un producto al carrito
+  /**
+   * Añadir un producto al carrito.
+   */
   async addToCart(product: any): Promise<void> {
     try {
       const userId = await this.authService.getCurrentUserId();
-      if (userId) {
-        const cartRef = this.firestore.collection(`users/${userId}/cart`);
-        const cartItem = await cartRef.ref.where('id', '==', product.id).get();
-
-        if (!cartItem.empty) {
-          const itemDoc = cartItem.docs[0];
-          const itemData = itemDoc.data() as { quantity?: number };
-          await itemDoc.ref.update({ quantity: (itemData.quantity || 1) + 1 });
-        } else {
-          await cartRef.add({ ...product, quantity: 1 });
-        }
-        await this.updateCartItemCount();
+      if (!userId) {
+        console.warn('Usuario no autenticado, no se puede añadir al carrito');
+        return;
       }
+  
+      const cartRef = this.firestore.collection(`users/${userId}/cart`);
+      const cartItemSnapshot = await cartRef.ref.where('id', '==', product.id).get();
+  
+      if (!cartItemSnapshot.empty) {
+        const itemDoc = cartItemSnapshot.docs[0];
+        const itemData = itemDoc.data() as { quantity: number };
+        await itemDoc.ref.update({ quantity: itemData.quantity + 1 });
+      } else {
+        await cartRef.add({ ...product, quantity: 1 });
+      }
+  
+      this.updateCartItemCount();
     } catch (error) {
-      console.error("Error al añadir al carrito:", error);
+      console.error('Error al añadir producto al carrito:', error);
     }
   }
+  
 
-  // Método para obtener los elementos del carrito
+  /**
+   * Obtener los elementos del carrito como un observable.
+   */
   getCartItems(): Observable<any[]> {
-    return new Observable(observer => {
-      this.authService.getCurrentUserId().then(userId => {
-        if (userId) {
-          this.firestore.collection(`users/${userId}/cart`).valueChanges()
-            .subscribe(
-              items => observer.next(items),
-              error => {
-                console.error("Error al obtener elementos del carrito:", error);
-                observer.error(error);
-              }
-            );
-        } else {
+    return new Observable((observer) => {
+      this.authService.getCurrentUserId().then((userId) => {
+        if (!userId) {
           observer.next([]);
+          return;
         }
-      }).catch(error => observer.error(error));
+  
+        this.firestore
+          .collection(`users/${userId}/cart`)
+          .valueChanges()
+          .subscribe(
+            (items) => observer.next(items),
+            (error) => {
+              console.error('Error al obtener elementos del carrito:', error);
+              observer.error(error);
+            }
+          );
+      }).catch((error) => {
+        console.error('Error al obtener el ID del usuario:', error);
+        observer.error(error);
+      });
     });
   }
+  
 
-  // Método para actualizar el conteo de productos en el carrito
+
+  /**
+   * Actualizar el conteo total de productos en el carrito.
+   */
+  private cartItemsSubject = new BehaviorSubject<any[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
+  
   private async updateCartItemCount(): Promise<void> {
-    const userId = await this.authService.getCurrentUserId();
-    if (userId) {
-      this.firestore.collection(`users/${userId}/cart`).valueChanges().subscribe(items => {
-        this.cartItemCount.next(items.length);
-      });
+    try {
+      const userId = await this.authService.getCurrentUserId();
+      if (userId) {
+        this.firestore.collection(`users/${userId}/cart`).valueChanges().subscribe((items: any[]) => {
+          const totalItems = items.reduce((count, item) => count + (item.quantity || 0), 0);
+          this.cartItemCount.next(totalItems);
+          this.cartItemsSubject.next(items); // Actualiza los elementos del carrito
+        });
+      }
+    } catch (error) {
+      console.error('Error al actualizar el conteo del carrito:', error);
     }
   }
+  
 
-  // Método para remover un producto del carrito
+  /**
+   * Eliminar un producto del carrito.
+   */
   async removeItem(itemId: string): Promise<void> {
     const userId = await this.authService.getCurrentUserId();
     if (userId) {
       await this.firestore.doc(`users/${userId}/cart/${itemId}`).delete();
-      await this.updateCartItemCount();
+      this.updateCartItemCount();
     }
   }
 
-  // Método para limpiar el carrito
+  /**
+   * Limpiar todo el carrito.
+   */
   async clearCart(): Promise<void> {
     const userId = await this.authService.getCurrentUserId();
     if (userId) {
       const cartRef = this.firestore.collection(`users/${userId}/cart`);
-      const items = await cartRef.get().toPromise();
-      if (items && !items.empty) {
-        const batch = this.firestore.firestore.batch();
-        items.forEach(item => batch.delete(item.ref));
-        await batch.commit();
-        this.cartItemCount.next(0);
-      }
+      const cartSnapshot = await cartRef.ref.get();
+      const batch = this.firestore.firestore.batch();
+
+      cartSnapshot.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
+      this.cartItemCount.next(0);
     }
   }
+
+ 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
 }
