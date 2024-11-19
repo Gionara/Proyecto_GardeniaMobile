@@ -37,25 +37,26 @@ export class DireccionesPage implements OnInit, AfterViewInit {
   }
 
   // Inicializa el autocompletado
-  initAutocomplete() {
-    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-      const input = document.getElementById('autocomplete') as HTMLInputElement;
-      const autocomplete = new google.maps.places.Autocomplete(input);
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry) {
-          this.lat = place.geometry.location.lat();
-          this.lng = place.geometry.location.lng();
-          this.center = { lat: this.lat, lng: this.lng }; // Actualiza el centro del mapa
+// Inicializa el autocompletado
+initAutocomplete() {
+  if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+    const input = document.getElementById('autocomplete') as HTMLInputElement;
+    const autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      if (place.geometry) {
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
 
-          // Coloca un marcador en la ubicación seleccionada
-          this.placeMarker(this.lat, this.lng);
-        }
-      });
-    } else {
-      console.error('Google Maps no está cargado correctamente');
-    }
+        // Coloca el marcador y centra el mapa
+        this.placeMarker(this.lat, this.lng);
+      }
+    });
+  } else {
+    console.error('Google Maps no está cargado correctamente');
   }
+}
+
 
   // Inicializa el mapa
   initMap() {
@@ -69,22 +70,33 @@ export class DireccionesPage implements OnInit, AfterViewInit {
   }
 
   // Coloca un marcador en el mapa
-  placeMarker(lat: number, lng: number) {
-    if (this.map) {
-      const marker = new google.maps.Marker({
-        position: { lat, lng },
-        map: this.map,
-        title: 'Ubicación seleccionada',
-      });
+// Coloca un marcador en el mapa y centra el mapa en la ubicación seleccionada
+placeMarker(lat: number, lng: number) {
+  if (this.map) {
+    const position = { lat, lng };
 
-      // Borra los marcadores anteriores
-      this.markers.forEach(m => m.setMap(null));
-      this.markers = [marker]; // Añade el nuevo marcador
+    // Borra los marcadores anteriores
+    this.markers.forEach(m => m.setMap(null));
+    this.markers = [];
 
-      // Actualiza la dirección guardada
-      this.direccion = `Lat: ${lat}, Lng: ${lng}`;
-    }
+    // Crea un nuevo marcador
+    const marker = new google.maps.Marker({
+      position,
+      map: this.map,
+      title: 'Ubicación seleccionada',
+    });
+
+    // Añade el marcador a la lista
+    this.markers.push(marker);
+
+    // Centra el mapa en la nueva ubicación
+    this.map.setCenter(position);
+
+    // Actualiza la dirección guardada
+    this.direccion = `Lat: ${lat}, Lng: ${lng}`;
   }
+}
+
 
   // Método agregarDireccion
   agregarDireccion() {
