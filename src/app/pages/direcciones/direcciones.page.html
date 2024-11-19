@@ -9,14 +9,34 @@
   <div class="map-container" style="height: 400px; width: 100%;" id="map"></div>
   
   <input id="autocomplete" type="text" placeholder="Escribe una dirección" />
+  
+  <ion-item>
+    <ion-label position="stacked">Alias</ion-label>
+    <ion-input [(ngModel)]="alias" placeholder="Ejemplo: Casa, Trabajo"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Nombre de contacto</ion-label>
+    <ion-input [(ngModel)]="nombreContacto"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Teléfono</ion-label>
+    <ion-input [(ngModel)]="telefono" type="tel"></ion-input>
+  </ion-item>
 
   <ion-button expand="block" (click)="agregarDireccion()">Guardar Dirección</ion-button>
 
   <!-- Lista de direcciones -->
   <ion-list>
+    <h3> Direcciones Guardadas</h3>
     <ion-item *ngFor="let dir of direcciones">
-      {{ dir.direccion }}
-      <ion-button fill="clear" slot="end" (click)="eliminarDireccion(dir.id)">Eliminar</ion-button>
+      <ion-label>
+        <h1>{{ dir.alias }}</h1>
+        <h2>Direccion: {{ dir.direccion }}</h2>
+        <h2> Contacto: {{ dir.nombreContacto }} -  Telefono: {{ dir.telefono }}</h2>
+      </ion-label>
+      <ion-button fill="clear" slot="end" (click)="eliminarDireccion(dir.id ? dir.id : '')">Eliminar</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

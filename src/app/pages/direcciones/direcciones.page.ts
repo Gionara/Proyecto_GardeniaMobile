@@ -1,6 +1,17 @@
 import { Component, ElementRef, NgZone, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 declare var google: any;
+
+export interface Direccion {
+  id?: string;
+  alias: string;
+  direccion: string;
+  nombreContacto: string;
+  telefono: string;
+  lat: number;
+  lng: number;
+}
 
 @Component({
   selector: 'app-direcciones',
@@ -8,111 +19,114 @@ declare var google: any;
   styleUrls: ['./direcciones.page.scss'],
 })
 export class DireccionesPage implements OnInit, AfterViewInit {
-  center: google.maps.LatLngLiteral = { lat: -33.4489, lng: -70.6693 }; // Coordenadas iniciales
-  options: google.maps.MapOptions = {
-    zoom: 12,
-    disableDefaultUI: true, // Opcional: Desactiva controles predeterminados
-  };
-  markers: google.maps.Marker[] = []; // Marcadores para el mapa
-  direcciones: any[] = [];
-  direccion = '';
+  center: google.maps.LatLngLiteral = { lat: -33.4489, lng: -70.6693 };
+  options: google.maps.MapOptions = { zoom: 12, disableDefaultUI: true };
+  markers: google.maps.Marker[] = [];
+  direcciones: Direccion[] = [];
+  direccion = ''; 
+  geodireccion = ''; 
+  alias = ''; 
+  nombreContacto = ''; 
+  telefono = ''; 
   lat = 0;
   lng = 0;
 
   @ViewChild('autocomplete', { static: false }) autocompleteInput!: ElementRef;
-
   map: google.maps.Map | undefined;
 
-  constructor(private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone, private firestore: AngularFirestore) {}
 
   ngOnInit() {
-    console.log('Eliminando una advertencia de error sin sentido :)');
+    this.obtenerDirecciones();
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.initAutocomplete(); // Inicializa el autocompletado
-      this.initMap(); // Inicializa el mapa
-    }, 1000);  // Un pequeño retardo para asegurar que el DOM esté listo
+      this.initAutocomplete();
+      this.initMap();
+    }, 1000);
   }
 
-  // Inicializa el autocompletado
-// Inicializa el autocompletado
-initAutocomplete() {
-  if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+  initAutocomplete() {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const autocomplete = new google.maps.places.Autocomplete(input);
+
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
-      if (place.geometry) {
+      if (place.geometry && place.formatted_address) {
+        this.direccion = place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
-
-        // Coloca el marcador y centra el mapa
-        this.placeMarker(this.lat, this.lng);
+        this.placeMarker(this.lat, this.lng, this.direccion);
       }
     });
-  } else {
-    console.error('Google Maps no está cargado correctamente');
   }
-}
 
-
-  // Inicializa el mapa
   initMap() {
-    if (typeof google !== 'undefined') {
-      this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-        center: this.center,
-        zoom: 12,
-        disableDefaultUI: true,
-      });
+    this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      center: this.center,
+      zoom: 12,
+      disableDefaultUI: true,
+    });
+  }
+
+  placeMarker(lat: number, lng: number, direccion: string) {
+    if (this.map) {
+      const position = { lat, lng };
+      this.markers.forEach((m) => m.setMap(null));
+      this.markers = [];
+      const marker = new google.maps.Marker({ position, map: this.map });
+      this.markers.push(marker);
+      this.map.setCenter(position);
+      this.geodireccion = `Lat: ${lat}, Lng: ${lng}`;
+      this.direccion = direccion;
     }
   }
 
-  // Coloca un marcador en el mapa
-// Coloca un marcador en el mapa y centra el mapa en la ubicación seleccionada
-placeMarker(lat: number, lng: number) {
-  if (this.map) {
-    const position = { lat, lng };
-
-    // Borra los marcadores anteriores
-    this.markers.forEach(m => m.setMap(null));
-    this.markers = [];
-
-    // Crea un nuevo marcador
-    const marker = new google.maps.Marker({
-      position,
-      map: this.map,
-      title: 'Ubicación seleccionada',
-    });
-
-    // Añade el marcador a la lista
-    this.markers.push(marker);
-
-    // Centra el mapa en la nueva ubicación
-    this.map.setCenter(position);
-
-    // Actualiza la dirección guardada
-    this.direccion = `Lat: ${lat}, Lng: ${lng}`;
-  }
-}
-
-
-  // Método agregarDireccion
   agregarDireccion() {
-    if (this.direccion) {
-      this.direcciones.push({
-        id: this.direcciones.length + 1,
+    if (this.direccion && this.alias && this.nombreContacto && this.telefono) {
+      const nuevaDireccion: Direccion = {
         direccion: this.direccion,
+        alias: this.alias,
+        nombreContacto: this.nombreContacto,
+        telefono: this.telefono,
         lat: this.lat,
         lng: this.lng,
+      };
+      this.firestore.collection('direcciones').add(nuevaDireccion).then(() => {
+        this.obtenerDirecciones();
       });
-      this.direccion = ''; // Limpiar el campo de dirección
+      this.direccion = '';
+      this.alias = '';
+      this.nombreContacto = '';
+      this.telefono = '';
     }
   }
 
-  // Método eliminarDireccion
-  eliminarDireccion(id: number) {
-    this.direcciones = this.direcciones.filter((direccion) => direccion.id !== id);
+  obtenerDirecciones() {
+    this.firestore.collection('direcciones').snapshotChanges().subscribe((data) => {
+      this.direcciones = data.map((e) => {
+        const docData = e.payload.doc.data() as Direccion;
+        return {
+          id: e.payload.doc.id,
+          alias: docData.alias || 'Sin alias',
+          direccion: docData.direccion || 'Sin dirección',
+          nombreContacto: docData.nombreContacto || 'Sin contacto',
+          telefono: docData.telefono || 'Sin teléfono',
+          lat: docData.lat || 0,
+          lng: docData.lng || 0,
+        };
+      });
+    });
   }
+
+
+
+  eliminarDireccion(id: string) {
+    if (id) {
+      this.firestore.collection('direcciones').doc(id).delete().then(() => {
+        this.obtenerDirecciones();
+      });
+    }
+  }  
 }
