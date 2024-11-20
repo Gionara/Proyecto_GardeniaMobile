@@ -1,5 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth'; // Importa AngularFireAuth
 
 declare var google: any;
 
@@ -34,10 +35,23 @@ export class DireccionesPage implements OnInit, AfterViewInit {
   @ViewChild('autocomplete', { static: false }) autocompleteInput!: ElementRef;
   map: google.maps.Map | undefined;
 
-  constructor(private ngZone: NgZone, private firestore: AngularFirestore) {}
-
+  constructor(
+    private ngZone: NgZone,
+    private firestore: AngularFirestore,
+    private afAuth: AngularFireAuth // Inyecta AngularFireAuth
+  ) {}
+  
+  uid: string | null = null; // Variable para almacenar el uid del usuario
+  
   ngOnInit() {
-    this.obtenerDirecciones();
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.uid = user.uid; // Obtén el uid del usuario
+        this.obtenerDirecciones(); // Carga las direcciones relacionadas al usuario
+      } else {
+        this.uid = null;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -84,7 +98,7 @@ export class DireccionesPage implements OnInit, AfterViewInit {
   }
 
   agregarDireccion() {
-    if (this.direccion && this.alias && this.nombreContacto && this.telefono) {
+    if (this.uid && this.direccion && this.alias && this.nombreContacto && this.telefono) {
       const nuevaDireccion: Direccion = {
         direccion: this.direccion,
         alias: this.alias,
@@ -93,9 +107,12 @@ export class DireccionesPage implements OnInit, AfterViewInit {
         lat: this.lat,
         lng: this.lng,
       };
-      this.firestore.collection('direcciones').add(nuevaDireccion).then(() => {
-        this.obtenerDirecciones();
-      });
+      this.firestore
+        .collection('direcciones')
+        .add({ ...nuevaDireccion, uid: this.uid }) // Agrega el uid del usuario
+        .then(() => {
+          this.obtenerDirecciones();
+        });
       this.direccion = '';
       this.alias = '';
       this.nombreContacto = '';
@@ -104,29 +121,44 @@ export class DireccionesPage implements OnInit, AfterViewInit {
   }
 
   obtenerDirecciones() {
-    this.firestore.collection('direcciones').snapshotChanges().subscribe((data) => {
-      this.direcciones = data.map((e) => {
-        const docData = e.payload.doc.data() as Direccion;
-        return {
-          id: e.payload.doc.id,
-          alias: docData.alias || 'Sin alias',
-          direccion: docData.direccion || 'Sin dirección',
-          nombreContacto: docData.nombreContacto || 'Sin contacto',
-          telefono: docData.telefono || 'Sin teléfono',
-          lat: docData.lat || 0,
-          lng: docData.lng || 0,
-        };
-      });
-    });
+    if (this.uid) {
+      this.firestore
+        .collection('direcciones', (ref) => ref.where('uid', '==', this.uid)) // Filtra por uid
+        .snapshotChanges()
+        .subscribe((data) => {
+          this.direcciones = data.map((e) => {
+            const docData = e.payload.doc.data() as Direccion;
+            return {
+              id: e.payload.doc.id,
+              alias: docData.alias || 'Sin alias',
+              direccion: docData.direccion || 'Sin dirección',
+              nombreContacto: docData.nombreContacto || 'Sin contacto',
+              telefono: docData.telefono || 'Sin teléfono',
+              lat: docData.lat || 0,
+              lng: docData.lng || 0,
+            };
+          });
+        });
+    }
   }
 
-
-
   eliminarDireccion(id: string) {
-    if (id) {
-      this.firestore.collection('direcciones').doc(id).delete().then(() => {
-        this.obtenerDirecciones();
-      });
+    if (id && this.uid) {
+      this.firestore
+        .collection('direcciones')
+        .doc(id)
+        .ref.get()
+        .then((doc) => {
+          if (doc.exists) {
+            const direccionData = doc.data() as Direccion & { uid: string }; // Especifica el tipo
+            if (direccionData.uid === this.uid) {
+              // Verifica que la dirección pertenece al usuario
+              doc.ref.delete().then(() => {
+                this.obtenerDirecciones();
+              });
+            }
+          }
+        });
     }
-  }  
+  }
 }

@@ -1,78 +1,56 @@
-// src/app/pages/cart/cart.page.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CartService } from '../../servicios/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
 })
-export class CartPage implements OnInit {
+export class CartPage implements OnInit, OnDestroy {
   cartItems: any[] = [];
   totalAmount: number = 0;
+  private subscription: Subscription = new Subscription();
 
   constructor(private cartService: CartService) {}
 
   ngOnInit() {
-    this.loadCartItems();
+    this.subscription = this.cartService.cartItems$.subscribe((items) => {
+      this.cartItems = items;
+      this.calculateTotalAmount();
+    }, (error) => {
+      console.error('Error al obtener los items del carrito:', error);
+    });
   }
+  
 
-  async loadCartItems() {
-    const itemsObservable = await this.cartService.getCartItems();
-    if (itemsObservable) {
-      itemsObservable.subscribe((items: any[]) => {
-        this.cartItems = items;
-        this.calculateTotalAmount();
-      });
-    }
-  }
-
-  // Calcular el monto total
   calculateTotalAmount() {
-    this.totalAmount = this.cartItems.reduce((total, item) => {
-      return total + item.precio * item.quantity;
-    }, 0);
+    this.totalAmount = this.cartItems.reduce((total, item) => total + item.precio * item.quantity, 0);
   }
 
-  // Aumentar cantidad
   increaseQuantity(item: any) {
     item.quantity += 1;
-    this.cartService.updateItem(item); // Opcional, para persistencia
-    this.calculateTotalAmount();
+    this.cartService.addToCart(item);
   }
 
-  // Disminuir cantidad
   decreaseQuantity(item: any) {
     if (item.quantity > 1) {
       item.quantity -= 1;
-      this.cartService.updateItem(item); // Opcional, para persistencia
-      this.calculateTotalAmount();
+      this.cartService.addToCart(item);
+    } else {
+      this.cartService.removeItem(item.docId);
     }
   }
 
-  // Actualizar cantidad directamente desde un input
-  updateQuantity(item: any, event: any) {
-    const newQuantity = parseInt(event.detail.value, 10);
-    if (newQuantity > 0) {
-      item.quantity = newQuantity;
-      this.cartService.updateItem(item); // Opcional, para persistencia
-      this.calculateTotalAmount();
-    }
-  }
-
-  // Eliminar un producto del carrito
   removeItem(itemId: string) {
-    this.cartService.removeItem(itemId).then(() => {
-      this.cartItems = this.cartItems.filter(item => item.id !== itemId);
-      this.calculateTotalAmount();
-    });
+    this.cartService.removeItem(itemId);
   }
 
-  // Limpiar el carrito
   clearCart() {
-    this.cartService.clearCart().then(() => {
-      this.cartItems = [];
-      this.calculateTotalAmount();
-    });
+    this.cartService.clearCart();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

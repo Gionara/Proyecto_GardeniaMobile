@@ -24,12 +24,15 @@ export class AuthService {
   // Otros métodos de autenticación (login, logout, register, etc.) van aquí
   async login(email: string, password: string): Promise<any> {
     try {
-      return await this.afAuth.signInWithEmailAndPassword(email, password);
+      const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
+      console.log('Usuario autenticado:', userCredential.user); // Asegúrate de que el usuario esté autenticado
+      return userCredential;
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);
       throw error;
     }
   }
+  
 
   async logout(): Promise<void> {
     try {
@@ -69,7 +72,18 @@ export class AuthService {
   }
 
   async getCurrentUserId(): Promise<string | null> {
-    const user = await this.afAuth.currentUser;
-    return user ? user.uid : null;
+    try {
+      const user = await this.afAuth.currentUser;
+      if (user) {
+        return user.uid;
+      } else {
+        console.warn('No hay usuario autenticado.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el ID del usuario actual:', error);
+      return null;
+    }
   }
+  
 }

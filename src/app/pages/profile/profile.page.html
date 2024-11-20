@@ -1,6 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Perfil de Usuario</ion-title>
+    <ion-title>
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;"> Perfil de Usuario
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+        <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon [routerLink]="['/profile']" color="light" name="person-circle-outline" width="50px"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +22,28 @@
     <!-- Foto de perfil -->
     <img *ngIf="fotoUrl" [src]="fotoUrl" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%;">
 
-    <!-- Botón de Logout -->
-    <ion-button expand="full" color="danger" (click)="logout()">Cerrar Sesión</ion-button>
   </div>
+
+  <div style="margin-top: 20px;">
+    <h2>Direcciones Guardadas</h2>
+    <ion-list>
+      <ion-item *ngFor="let direccion of direcciones">
+        <ion-label>
+          <h1>{{ direccion.alias }}</h1>
+          <p>{{ direccion.direccion }}</p>
+        </ion-label>
+        <ion-button color="danger" (click)="eliminarDireccion(direccion.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" color="primary" [routerLink]="['/direcciones']">
+      Añadir Nueva Dirección
+    </ion-button>
+  
+  </div>
+<!-- Botón de Logout -->
+<div class="mt-5">
+<ion-button expand="full" color="danger" (click)="logout()">Cerrar Sesión</ion-button>
+</div>
 </ion-content>

@@ -10,13 +10,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AngularFireModule } from '@angular/fire/compat'; // Para compatibilidad con Firebase v8
+import { AngularFireAuthModule } from '@angular/fire/compat/auth'; // Para la autenticación
 import { environment } from '../environments/environment'; // Donde se encuentra la configuración de Firebase
 import { GoogleMapsModule } from '@angular/google-maps'; // Nueva importación
 import { DireccionesPage } from './pages/direcciones/direcciones.page';
 import { DireccionesService } from './servicios/direcciones.service'; 
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Asegúrate de importar esto
 
 
 @NgModule({

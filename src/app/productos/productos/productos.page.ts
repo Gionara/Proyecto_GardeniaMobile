@@ -29,7 +29,7 @@ export class ProductosPage implements OnInit {
 
   ngOnInit() {
     this.productos$ = this.firestore.collection('productos').valueChanges();
-    this.cartItems$ = this.cartService.getCartItems();
+    this.cartItems$ = this.cartService.cartItems$;
 
     const categoriaNombre = this.route.snapshot.paramMap.get('categoria');
     const subcategoriaNombre = this.route.snapshot.paramMap.get('subcategoria');
@@ -74,7 +74,7 @@ export class ProductosPage implements OnInit {
   }
 
   async updateCartItemCount(): Promise<void> {
-    this.cartItems$ = this.cartService.getCartItems();
+    this.cartItems$ = this.cartService.cartItems$;
     console.log('Conteo de ítems actualizado.');
   }
 

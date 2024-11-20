@@ -1,27 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" routerLink="/home"> Carrito de Compras
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon name="person-circle-outline" color="light" routerLink="/profile"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <ion-list *ngIf="cartItems.length > 0; else emptyCart">
     <ion-item *ngFor="let item of cartItems">
-      <ion-label>
-        <h2>{{ item.nombre }}</h2>
-        <img [src]="item.img" width="50px" [alt]="item.nombre" />
+      <ion-row class="ion-align-items-center">
 
-        <p>Cantidad: {{ item.quantity }}</p>
-        <p>Precio unitario: {{ item.precio | currency }}</p>
-        <p>Subtotal: {{ item.precio * item.quantity | currency }}</p>
-      </ion-label>
-      
-      <!-- Controles para ajustar la cantidad -->
-      <ion-button slot="end" (click)="decreaseQuantity(item)">-</ion-button>
-      <input type="number" [(ngModel)]="item.quantity" (ionChange)="updateQuantity(item, $event)">
-      <ion-button slot="end" (click)="increaseQuantity(item)">+</ion-button>
-      
-      <ion-button color="danger" slot="end" (click)="removeItem(item.id)">Eliminar</ion-button>
+        <!-- Columna de la imagen y nombre -->
+        <ion-col size="4" size-md="2">
+          <img [src]="item.img" alt="{{ item.nombre }}" class="item-image" />
+        </ion-col>
+
+        <!-- Columna de la información del producto -->
+        <ion-col size="8" size-md="5">
+          <ion-label>
+            <h2>{{ item.nombre }}</h2>
+            <p>Cantidad: {{ item.quantity }}</p>
+            <p>Precio unitario: {{ item.precio | currency }}</p>
+            <h6>Subtotal: {{ item.precio * item.quantity | currency }}</h6>
+          </ion-label>
+        </ion-col>
+
+        <!-- Columna con los botones para aumentar/disminuir y eliminar -->
+        <ion-col size="12" size-md="5" class="ion-text-center">
+          <ion-button (click)="decreaseQuantity(item)" color="light" size="small">-</ion-button>
+          <ion-button (click)="increaseQuantity(item)" color="light" size="small">+</ion-button>
+          <ion-button (click)="removeItem(item.docId)" color="danger" size="small">Eliminar</ion-button>
+        </ion-col>
+
+      </ion-row>
     </ion-item>
 
-    <!-- Mostrar el total general -->
+    <!-- Total -->
     <ion-item>
       <h2>Total: {{ totalAmount | currency }}</h2>
     </ion-item>
+
+    <!-- Botón para vaciar el carrito -->
     <ion-button expand="block" color="danger" (click)="clearCart()">Vaciar Carrito</ion-button>
   </ion-list>
 

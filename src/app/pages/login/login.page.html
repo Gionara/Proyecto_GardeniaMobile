@@ -2,7 +2,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;"> Perfil de Usuario
       Iniciar sesión
     </ion-title>
     <ion-buttons slot="start">
@@ -14,7 +14,7 @@
 <ion-content>
   <div>
     <form id="login_form">
-      <div class="form-floating mb-3">
+      <div class="form-floating mt-5 mb-3">
         <input type="text" class="form-control rounded-3" [(ngModel)]="usuario_login" name="usuario_login"
                placeholder="Correo electronico" required>
         <label for="usuario_login">Correo electronico</label>

@@ -1,13 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Direcciones</ion-title>
+    <ion-title>
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;"> Direcciones
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+        <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon [routerLink]="['/profile']" color="light" name="person-circle-outline" width="50px"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <!-- Mapa -->
-  <div class="map-container" style="height: 400px; width: 100%;" id="map"></div>
+  <div class="map-container m-3 " style="height: 200px; width: 100%;" id="map"></div>
   
+  <h2>Ingresa Dirección</h2>
   <input id="autocomplete" type="text" placeholder="Escribe una dirección" />
   
   <ion-item>
@@ -29,14 +39,16 @@
 
   <!-- Lista de direcciones -->
   <ion-list>
-    <h3> Direcciones Guardadas</h3>
+    <h2> Direcciones Guardadas</h2>
     <ion-item *ngFor="let dir of direcciones">
       <ion-label>
         <h1>{{ dir.alias }}</h1>
-        <h2>Direccion: {{ dir.direccion }}</h2>
-        <h2> Contacto: {{ dir.nombreContacto }} -  Telefono: {{ dir.telefono }}</h2>
+        <p>Direccion: {{ dir.direccion }}</p>
+        <p> Contacto: {{ dir.nombreContacto }} -  Telefono: {{ dir.telefono }}</p>
       </ion-label>
-      <ion-button fill="clear" slot="end" (click)="eliminarDireccion(dir.id ? dir.id : '')">Eliminar</ion-button>
+      <ion-button color="danger" (click)="eliminarDireccion(dir.id ? dir.id : '')">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

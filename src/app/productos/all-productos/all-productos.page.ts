@@ -24,7 +24,7 @@ export class AllProductosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cartItems$ = this.cartService.getCartItems();
+    this.cartItems$ = this.cartService.cartItems$;
     
     // Obtener parámetros de categoría y subcategoría desde la ruta
     const categoriaNombre = this.route.snapshot.paramMap.get('categoria');
