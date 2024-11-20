@@ -1,14 +1,15 @@
 <ion-header>
   <ion-toolbar><br>
     <ion-title>
-      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
       Herramientas</ion-title>
       <ion-buttons slot="start">
         <ion-menu-button color="light"></ion-menu-button>
           <ion-back-button color="light"></ion-back-button>
       </ion-buttons>
+    
     <ion-buttons slot="end">
-      <ion-icon color="light" name="person-circle-outline" width="50px"></ion-icon>
+      <ion-icon [routerLink]="['/profile']" color="light" name="person-circle-outline" width="50px"></ion-icon>
     </ion-buttons>
   </ion-toolbar><br>
 </ion-header>

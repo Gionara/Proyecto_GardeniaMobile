@@ -5,20 +5,21 @@
       <ion-back-button color="light"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
-      {{ categoriaNombre }} - {{ subcategoriaNombre }}
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      Todos los productos
     </ion-title>
     <ion-buttons slot="end">
-      <ion-icon name="person-circle-outline" color="light" class="ion-icon"></ion-icon>
+      <ion-icon [routerLink]="['/profile']" color="light" name="person-circle-outline" width="50px"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div id="productos-container">
-    <h3> {{ categoriaNombre }} - {{ subcategoriaNombre }}</h3>
+    
     <ion-grid>
-      <ion-row class="justify-content-center">
+      <ng-container *ngIf="productos$ | async as productos; else noProductos">
+      <ion-row *ngIf="productos.length > 0; else noProductos"  class="justify-content-center">
         <ion-col size="8"  *ngFor="let producto of productos">
           <ion-card [routerLink]="['/producto-detalle', producto.id]" class="producto-card">
             <img [src]="producto.img" [alt]="producto.nombre" />
@@ -29,9 +30,10 @@
               <h4>Precio: ${{ producto.precio }}</h4>
               <p  >Stock: {{ producto.stock }} unidades</p>
               <p class="descripcion">{{ producto.descripcion }}</p>
-              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" class="añadir-btn">
+              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" (click)="addToCart(producto, $event)" class="añadir-btn">
                 Añadir al Carrito
               </ion-button>
+              
               <ion-button *ngIf="producto.stock === 0" expand="full" color="medium" disabled class="agotado-btn">
                 Agotado
               </ion-button>
@@ -39,9 +41,17 @@
           </ion-card>
         </ion-col>
       </ion-row>
+    </ng-container>
     </ion-grid>
+
+    
+
     <ng-template #noProductos>
-      <p>No hay productos disponibles en esta categoría y subcategoría.</p>
+      <ion-row class="justify-content-center">
+        <ion-col size="12" class="text-center">
+          No hay productos disponibles.
+        </ion-col>
+      </ion-row>
     </ng-template>
   </div>
 </ion-content>

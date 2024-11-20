@@ -17,7 +17,10 @@ export class CartService implements OnDestroy {
   constructor(private firestore: AngularFirestore, private authService: AuthService) {
     this.initializeCart();
   }
-
+  getCartRef() {
+    return this.firestore.collection(`users/${this.authService.getCurrentUserId()}/cart`);
+  }
+  
   private initializeCart() {
     this.authService.isAuthenticated().subscribe(isAuthenticated => {
       if (isAuthenticated) {

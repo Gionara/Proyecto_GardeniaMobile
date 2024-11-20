@@ -51,14 +51,17 @@ export class ProductosPage implements OnInit {
     });
   }
 
-  async addToCart(product: any): Promise<void> {
+  async addToCart(product: any, event: Event): Promise<void> {
+    event.preventDefault();  // Prevenir la acción de navegación
+    event.stopPropagation(); // Detener la propagación del evento
+  
     try {
       const userId = await this.authService.getCurrentUserId();
       if (userId) {
         const cartRef = this.firestore.collection(`users/${userId}/cart`);
         const cartQuery = cartRef.ref.where('id', '==', product.id);
         const cartItem = await cartQuery.get();
-
+  
         if (!cartItem.empty) {
           const itemDoc = cartItem.docs[0];
           const itemData = itemDoc.data() as { quantity?: number };
@@ -72,7 +75,7 @@ export class ProductosPage implements OnInit {
       console.error('Error al añadir al carrito:', error);
     }
   }
-
+  
   async updateCartItemCount(): Promise<void> {
     this.cartItems$ = this.cartService.cartItems$;
     console.log('Conteo de ítems actualizado.');

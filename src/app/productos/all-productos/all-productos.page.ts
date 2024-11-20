@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../productos.service';
-import { DataService } from '../../data.service';
 import { CartService } from '../../servicios/cart.service';
+import { DataService } from '../../data.service';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { ProductsService } from '../../productos.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore'; // Mantén solo AngularFirestore
+import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-all-productos',
@@ -11,40 +13,55 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./all-productos.page.scss']
 })
 export class AllProductosPage implements OnInit {
-  productos: any[] = [];
-  categoriaNombre: string = '';
-  subcategoriaNombre: string = '';
+  productos$: Observable<any[]> = new Observable();
   cartItems$: Observable<any[]> = of([]);
 
   constructor(
-    private productService: ProductsService, // Asegúrate de que el nombre sea correcto aquí
+    private productosService: ProductsService,
     private route: ActivatedRoute,
     private cartService: CartService,
     private dataService: DataService,
-  ) { }
+    private firestore: AngularFirestore, // Usa solo AngularFirestore
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.cartItems$ = this.cartService.cartItems$;
-    
-    // Obtener parámetros de categoría y subcategoría desde la ruta
-    const categoriaNombre = this.route.snapshot.paramMap.get('categoria');
-    const subcategoriaNombre = this.route.snapshot.paramMap.get('subcategoria');
-    
-    // Cargar datos del JSON
     this.dataService.getData().subscribe(data => {
-      // Obtener el nombre de la categoría y subcategoría
-      
-   });
-   
+      // Asignar los productos desde el archivo JSON
+      this.productos$ = of(data.productos);
+    });
+    this.cartItems$ = this.cartService.cartItems$;
   }
+  
 
-  async addToCart(product: any) {
+  async addToCart(product: any, event: Event): Promise<void> {
+    event.preventDefault();  // Prevenir la acción de navegación
+    event.stopPropagation(); // Detener la propagación del evento
+  
     try {
-      await this.cartService.addToCart(product);
-      console.log('Producto añadido al carrito');
+      const userId = await this.authService.getCurrentUserId();
+      if (userId) {
+        const cartRef = this.firestore.collection(`users/${userId}/cart`);
+        const cartQuery = cartRef.ref.where('id', '==', product.id);
+        const cartItem = await cartQuery.get();
+  
+        if (!cartItem.empty) {
+          const itemDoc = cartItem.docs[0];
+          const itemData = itemDoc.data() as { quantity?: number };
+          await cartRef.doc(itemDoc.id).update({ quantity: (itemData.quantity || 1) + 1 });
+        } else {
+          await cartRef.add({ ...product, quantity: 1 });
+        }
+        await this.updateCartItemCount();
+      }
     } catch (error) {
-      console.error('Error al añadir producto al carrito:', error);
+      console.error('Error al añadir al carrito:', error);
     }
+  }
+  
+  async updateCartItemCount(): Promise<void> {
+    this.cartItems$ = this.cartService.cartItems$;
+    console.log('Conteo de ítems actualizado.');
   }
 
   async removeFromCart(itemId: string) {
@@ -65,3 +82,4 @@ export class AllProductosPage implements OnInit {
     }
   }
 }
+

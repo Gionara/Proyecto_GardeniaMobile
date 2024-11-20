@@ -5,11 +5,11 @@
       <ion-back-button color="light"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <img src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
+      <img [routerLink]="['/home']" src="assets/img/logo/logo_color.png" alt="logo" width="50px" style="padding-right: 4px;">
       {{ categoriaNombre }} - {{ subcategoriaNombre }}
     </ion-title>
     <ion-buttons slot="end">
-      <ion-icon name="person-circle-outline" color="light" class="ion-icon"></ion-icon>
+      <ion-icon [routerLink]="['/profile']" color="light" name="person-circle-outline" width="50px"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -30,9 +30,10 @@
               <h4>Precio: ${{ producto.precio }}</h4>
               <p  >Stock: {{ producto.stock }} unidades</p>
               <p class="descripcion">{{ producto.descripcion }}</p>
-              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" (click)="addToCart(producto)"  class="añadir-btn">
+              <ion-button *ngIf="producto.stock > 0" expand="full" color="secondary" (click)="addToCart(producto, $event)" class="añadir-btn">
                 Añadir al Carrito
               </ion-button>
+              
               <ion-button *ngIf="producto.stock === 0" expand="full" color="medium" disabled class="agotado-btn">
                 Agotado
               </ion-button>

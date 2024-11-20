@@ -10,29 +10,103 @@ $color-light: #FFFFFF;
 $color-black: #000000;
 
 .dancing-script-font {
-    font-family: "Dancing Script", cursive;
-    font-optical-sizing: auto;
-    font-size: xx-large;
-    font-weight: 700;
-    font-style: normal;
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-size: xx-large;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .comfortaa-font {
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+ion-content {
+    --background: #FFFFFF;
+}
+ion-toolbar {
+    --background: #333333;
+    height: 100%;
+   
+}
+
+
+
+ion-icon {
+    font-size: 1.5rem;
+    color: $color-primary;
+    width: 40px;
+    height: 40px;
+    margin-left:10px ;
+}
+
+ion-back-button{
+    color:$color-light;
+}
+
+ion-title {
+    color: $color-light;
     font-family: "Comfortaa", sans-serif;
     font-optical-sizing: auto;
+    font-size: 1.2rem;
     font-weight: 700;
     font-style: normal;
-}
+    margin: 0;
+    padding: 3;
 
-ion-menu::part(backdrop) {
-  background-color: rgba(115, 115, 115, 0.556);
 }
+.item-image {
+    width: 80%;
+    
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  ion-item {
+    padding: 10px 0;
+  }
+  
+  ion-row {
+    margin-bottom: 10px;
+  }
+  
+  ion-col {
+    padding: 5px;
+  }
+  
+  ion-button {
+    margin: 5px;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    font-family: "Comfortaa", sans-serif;
+    color: $color-primary;
+    font-weight: bold;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+    font-family: "Comfortaa", sans-serif;
+    color: $color-dark;
+  }
+  h6 {
 
-ion-menu::part(container) {
-  border-radius: 0 20px 20px 0;
-
-  box-shadow: 4px 0px 16px rgba(115, 115, 115, 0.556);
-}
-ion-toolbar{
-  background-color: #333333;
-}
+    font-family: "Comfortaa", sans-serif;
+    color: $color-tertiary;
+    font-size: 1.1rem;
+  }
+  p {
+    font-family: "Comfortaa", sans-serif;
+    font-size: 1rem;
+    color: $color-dark;
+  }
+  
+  ion-button {
+    font-family: "Comfortaa", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  
